@@ -1,11 +1,12 @@
-from flask import Flask, render_template
-from PIL import Image, ImageDraw
+from flask import Flask, render_template, request
 import sigGenerator
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/sig")
 def hello():
-    sig = sigGenerator.OsuSig((187, 17, 119), "tryonelove")
+    username = request.args.get("uname")
+    color = request.args.get("color")
+    sig = sigGenerator.OsuSig((187, 17, 119), username)
     sig.generateImage()
     return render_template("index.html")
