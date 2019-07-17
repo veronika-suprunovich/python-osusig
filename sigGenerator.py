@@ -28,6 +28,8 @@ class OsuSig:
         self.user_id = user["user_id"]
         self.rank = int(user["pp_rank"])
         self.country = user["country"]
+        self.accuracy = round(float(user["accuracy"]), 2)
+        self.playcount = user["playcount"]
 
     def generateImage(self):
         draw = self.drawImage()
@@ -35,12 +37,18 @@ class OsuSig:
         avatar = self.getUserAvatar()
         self.drawAvatar(avatar)
         # draw username
-        self.drawText(self.username, (86, 7), draw, "exo2bold", 20, (255,255,255))
+        self.drawText(self.username, (86, 3), draw, "exo2medium", 24, (255,255,255))
         # draw rank
         self.drawText("#{}".format(self.rank), (269 - self.moveRank(), 15), draw, "exo2regular", 13, (255,255,255))
+        #draw accuracy
+        self.drawText("Accuracy", (87, 38), draw, "exo2regular", 14, (85, 85, 85))
+        self.drawText(str(self.accuracy)+"%", (273, 37), draw, "exo2bold", 14, (85, 85, 85))
+        #draw playcount
+        self.drawText("Play Count", (87, 55), draw, "exo2regular", 14, (85, 85, 85))
+        self.drawText(self.playcount, (273, 54), draw, "exo2bold", 14, (85, 85, 85))
         self.drawFlag()
         self.drawMode()
-        self.saveImage()
+        self.saveSig()
 
     def moveRank(self):
         if self.rank < 10:
@@ -49,7 +57,7 @@ class OsuSig:
         return len(rank) * 5.7
 
     def drawSigArea(self, draw):
-        draw.rectangle((3, 35, 327, 82), fill="white")
+        draw.rectangle((3, 35, 326, 82), fill="white")
 
     def drawText(self, text, coords, image, font_type, font_size, color):
         fnt = ImageFont.truetype("./fonts/{}.ttf".format(font_type), font_size)
@@ -84,9 +92,8 @@ class OsuSig:
         new_size_y = int(new_size_x * resize_ratio)
         avatar = avatar.resize((new_size_x, new_size_y), Image.ANTIALIAS)
         self.img.paste(avatar, (5,5))
-        
-    def saveImage(self):
-        self.img.save("./static/sig.png")
-    
+
+    def saveSig(self):
+        self.img.save("sig.png")
     
 

@@ -15,8 +15,8 @@
     <meta name='mobileoptimized' content='480'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-    <script src="js/spectrum.js"></script>
-    <script src="js/app.js"></script>
+    <script src="{{ url_for('static', filename='js/spectrum.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </head>
 
 <body>
@@ -73,12 +73,11 @@
     <header>Your Signature</header>
     <article style="text-align: center;">
         <div id="previewarea">
-            <img src="{{ url_for('static', filename='sig.png') }}" class="preview lazy" width="338" height="94">
         </div>
         <br>
         <label for="out">BBCode:</label>
         <input type="text" name="out" id="out"
-            value="[img]http://127.0.0.1/sig?colour=pink&uname=tryonelove[/img]"
+            value="[img]a[/img]"
             style="width: 100%; text-align: center" readonly />
         <br><br>
         <a href="#" id="regen" class="button">Generate</a>
