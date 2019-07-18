@@ -11,7 +11,7 @@ def index():
     color = request.args.get("color")
     sig = sigGenerator.OsuSig((187, 17, 119), username)
     sig.generateImage()
-    return render_template("index.html")
+    return render_template("index.html", sigPicture="/sig")
 
 
 @app.route("/sig")

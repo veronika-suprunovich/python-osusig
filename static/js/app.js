@@ -9,7 +9,7 @@ $(function() {
         if (new Date().getTime() >= lc + 500) {
             lc = new Date().getTime();
 
-            var url = "sig";
+            var url = "/sig";
 
             url += "colour=" + colour.replace('#', "hex");
             url += "&uname=" + encodeURIComponent(($("input[name=uname]").val() || "tryonelove"));
@@ -36,7 +36,7 @@ $(function() {
             url += ($("input[name=adv-xp-bar]").prop('checked') ? "&xpbar" : "");
             url += ($("input[name=adv-xp-bar-hex]").prop('checked') ? "&xpbarhex" : "");
 
-            var fullurl = "http://127.0.0.1/" + url;
+            var fullurl = "http://127.0.0.1:5000/" + url;
 
             $("img.preview").remove();
 
