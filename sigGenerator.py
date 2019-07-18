@@ -12,6 +12,12 @@ MODE = {
     3 : "mania"
 }
 
+def formatAccuracy(num):
+    num = float(num)
+    if num.is_integer():
+        return round(num)
+    else:
+        return round(num, 2)
 
 class OsuSig:
     def __init__(self, color, username, mode=0):
@@ -28,7 +34,7 @@ class OsuSig:
         self.user_id = user["user_id"]
         self.rank = int(user["pp_rank"])
         self.country = user["country"]
-        self.accuracy = round(float(user["accuracy"]), 2)
+        self.accuracy = str(formatAccuracy(user["accuracy"]))
         self.playcount = user["playcount"]
 
     def generateImage(self):
@@ -42,7 +48,7 @@ class OsuSig:
         self.drawText("#{}".format(self.rank), (269 - self.moveRank(), 15), draw, "exo2regular", 13, (255,255,255))
         #draw accuracy
         self.drawText("Accuracy", (87, 38), draw, "exo2regular", 14, (85, 85, 85))
-        self.drawText(str(self.accuracy)+"%", (273, 37), draw, "exo2bold", 14, (85, 85, 85))
+        self.drawText(self.accuracy.rjust(4) +"%", (273, 37), draw, "exo2bold", 14, (85, 85, 85))
         #draw playcount
         self.drawText("Play Count", (87, 55), draw, "exo2regular", 14, (85, 85, 85))
         self.drawText(self.playcount, (273, 54), draw, "exo2bold", 14, (85, 85, 85))
@@ -94,6 +100,6 @@ class OsuSig:
         self.img.paste(avatar, (5,5))
 
     def saveSig(self):
-        self.img.save("sig.png")
+        self.img.save("static/sig.png")
     
 
