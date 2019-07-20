@@ -9,9 +9,9 @@ $(function() {
         if (new Date().getTime() >= lc + 500) {
             lc = new Date().getTime();
 
-            var url = "/sig";
+            var url = "sig?";
 
-            url += "colour=" + colour.replace('#', "hex");
+            url += "colour=" + colour.replace('#', "");
             url += "&uname=" + encodeURIComponent(($("input[name=uname]").val() || "tryonelove"));
             if(mode > 0) url += "&mode=" + mode;
             url += (ppmode >= 0 ? "&pp=" + ppmode : "");

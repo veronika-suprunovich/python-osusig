@@ -3,7 +3,7 @@ import api
 from config import API_KEY
 import requests
 import os
-
+from user import User
 
 MODE = {
     0 : "osu",
@@ -12,30 +12,12 @@ MODE = {
     3 : "mania"
 }
 
-def formatAccuracy(num):
-    num = float(num)
-    if num.is_integer():
-        return round(num)
-    else:
-        return round(num, 2)
-
 class OsuSig:
     def __init__(self, color, username, mode=0):
-        self.img = Image.new("RGBA", (330, 86), color=color)
+        self.img = Image.new("RGB", (330, 86), color=color)
         self.color = color
-        self.username = username
+        self.user = User(username, mode)
         self.mode = MODE.get(mode)
-        self.API = api.BanchoApi(API_KEY)
-        self.getUserStats()
-
-    def getUserStats(self):
-        user = self.API.get_user(u=self.username)[0]
-        self.username = user["username"]
-        self.user_id = user["user_id"]
-        self.rank = int(user["pp_rank"])
-        self.country = user["country"]
-        self.accuracy = str(formatAccuracy(user["accuracy"]))
-        self.playcount = user["playcount"]
 
     def generateImage(self):
         draw = self.drawImage()
@@ -43,24 +25,30 @@ class OsuSig:
         avatar = self.getUserAvatar()
         self.drawAvatar(avatar)
         # draw username
-        self.drawText(self.username, (86, 3), draw, "exo2medium", 24, (255,255,255))
+        self.drawText(self.user.username, (86, 3), draw, "exo2medium", 24, (255,255,255))
         # draw rank
-        self.drawText("#{}".format(self.rank), (269 - self.moveRank(), 15), draw, "exo2regular", 13, (255,255,255))
+        self.drawText("#{}".format(self.user.pp_rank), 
+            (269 - self.moveRank(), 15),
+            draw, 
+            "exo2regular",
+            13,
+            (255,255,255)
+        )
         #draw accuracy
         self.drawText("Accuracy", (87, 38), draw, "exo2regular", 14, (85, 85, 85))
-        self.drawText(self.accuracy.rjust(4) +"%", (273, 37), draw, "exo2bold", 14, (85, 85, 85))
+        self.drawText(self.user.accuracy.rjust(4) +"%", (273, 37), draw, "exo2bold", 14, (85, 85, 85))
         #draw playcount
         self.drawText("Play Count", (87, 55), draw, "exo2regular", 14, (85, 85, 85))
-        self.drawText(self.playcount, (273, 54), draw, "exo2bold", 14, (85, 85, 85))
+        self.drawText(self.user.playcount, (273, 54), draw, "exo2bold", 14, (85, 85, 85))
         self.drawFlag()
         self.drawMode()
         self.saveSig()
 
     def moveRank(self):
-        if self.rank < 10:
+        if int(self.user.pp_rank) < 10:
             return 0
-        rank = str(self.rank)
-        return len(rank) * 5.7
+        rank = str(self.user.pp_rank)
+        return len(rank) * 6
 
     def drawSigArea(self, draw):
         draw.rectangle((3, 35, 326, 82), fill="white")
@@ -79,12 +67,12 @@ class OsuSig:
         self.img.paste(mode, (286, 17), mode)
 
     def drawFlag(self):
-        flag = Image.open("flags/{}.png".format(self.country))
+        flag = Image.open("flags/{}.png".format(self.user.country))
         flag = flag.resize((18, 12), Image.ANTIALIAS)
         self.img.paste(flag, (303, 17), flag)
 
     def getUserAvatar(self):
-        avatar_url = "https://a.ppy.sh/{}_.jpg".format(self.user_id)
+        avatar_url = "https://a.ppy.sh/{}_.jpg".format(self.user.user_id)
         r = requests.get(avatar_url, stream=True)
         if r.status_code == 200:
             with open("avatar.jpg", 'wb') as f:
@@ -93,9 +81,11 @@ class OsuSig:
         return avatar
 
     def drawAvatar(self, avatar):
+        # x 76
+        # y 75
         resize_ratio = avatar.size[0] / avatar.size[1]
-        new_size_x = 76
-        new_size_y = int(new_size_x * resize_ratio)
+        new_size_y = 76
+        new_size_x = int(new_size_y * resize_ratio)
         avatar = avatar.resize((new_size_x, new_size_y), Image.ANTIALIAS)
         self.img.paste(avatar, (5,5))
 
