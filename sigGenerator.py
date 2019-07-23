@@ -42,6 +42,11 @@ class OsuSig:
         self.drawMode()
         self.saveSig()
 
+    def fontCoords(self, draw, font, text, size, coords):
+        fnt = ImageFont.truetype("./fonts/{}.ttf".format(font), size)
+        text_size = draw.textsize(text, font=fnt)
+        return (coords[0] - text_size[0], coords[1])
+
     def drawUsername(self, draw):
         self.drawText(self.user.username, 
             (86, 3),
@@ -49,9 +54,10 @@ class OsuSig:
     
     def drawRank(self, draw):
         text = "#{}".format(self.user.pp_rank)
+        coords  = self.fontCoords(draw, "exo2regular", text, 14, (280, 14))
         self.drawText(
-            text.rjust(10, " "), 
-            (238, 14),
+            text, 
+            coords,
             draw, 
             "exo2regular",
             14,
@@ -60,9 +66,10 @@ class OsuSig:
 
     def drawAccuracy(self, draw):
         if self.showPP=="1":
-            text, coords = '{} ({}pp)'.format((self.user.accuracy +"%").rjust(6), round(float(self.user.pp_raw))), (217, 37)
+            text, base_coords = '{} ({}pp)'.format(self.user.accuracy +"%", round(float(self.user.pp_raw))), (319, 37)
         else:
-            text, coords = '{}'.format((self.user.accuracy +"%").rjust(6)), (273, 37)
+            text, base_coords = '{}'.format((self.user.accuracy +"%")), (315, 37)
+        coords  = self.fontCoords(draw, "exo2regular", text, 14, base_coords)
         self.drawText("Accuracy", (87, 38), draw, "exo2regular", 14, (85, 85, 85))
         self.drawText(text, coords, draw, "exo2bold", 14, (85, 85, 85))
 
@@ -70,9 +77,10 @@ class OsuSig:
         self.drawText("Play Count", (87, 55), draw, "exo2regular", 14, (85, 85, 85))
         text = ""
         if self.showPP=="0":
-            text, coords = '{0:,} ({1}pp)'.format(int(self.user.playcount), round(float(self.user.pp_raw))), (215, 54)
+            text, base_coords = '{0:,} ({1}pp)'.format(int(self.user.playcount), round(float(self.user.pp_raw))), (319, 54)
         else:
-            text, coords = '{0:,} (lv{1})'.format(int(self.user.playcount), round(float(self.user.level))), (230, 54)
+            text, base_coords = '{0:,} (lv{1})'.format(int(self.user.playcount), round(float(self.user.level))), (319, 54)
+        coords  = self.fontCoords(draw, "exo2bold", text, 14, base_coords)
         self.drawText(text, 
                     coords, 
                     draw, 

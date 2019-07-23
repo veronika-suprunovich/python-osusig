@@ -9,7 +9,7 @@ $(function() {
         if (new Date().getTime() >= lc + 500) {
             lc = new Date().getTime();
 
-            var url = "sig?";
+            var url = "sig?"+Math.random()*100+"&";
 
             url += "colour=" + colour.replace('#', "");
             url += "&uname=" + encodeURIComponent(($("input[name=uname]").val() || "tryonelove"));
@@ -42,8 +42,6 @@ $(function() {
 
             var newimg = $("<img />", {
                 class: "preview lazy",
-                width: 338,
-                height: 94,
                 src: url
             });
 
