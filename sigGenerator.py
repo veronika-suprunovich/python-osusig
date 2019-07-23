@@ -6,15 +6,16 @@ import os
 from user import User
 
 MODE = {
-    0 : "osu",
-    1 : "taiko",
-    2 : "ctb",
-    3 : "mania"
+    "0" : "osu",
+    "1" : "taiko",
+    "2" : "ctb",
+    "3" : "mania"
 }
 
 class OsuSig:
     def __init__(self, 
-                color, username, mode=0, 
+                color, username,
+                mode=0, 
                 showPP = None, 
                 showRankedScore = False,
                 showXPBar = False,
@@ -25,7 +26,7 @@ class OsuSig:
         self.mode = MODE.get(mode)
         self.showPP = showPP
         self.showRankedScore = showRankedScore
-        self.showXPBar = showRankedScore
+        self.showXPBar = showXPBar
         self.isCountryRank = isCountryRank
 
     def generateImage(self):
@@ -48,9 +49,8 @@ class OsuSig:
     
     def drawRank(self, draw):
         text = "#{}".format(self.user.pp_rank)
-        print(text.ljust(10, "*"))
         self.drawText(
-            text.ljust(10, " "), 
+            text.rjust(10, " "), 
             (238, 14),
             draw, 
             "exo2regular",
@@ -59,12 +59,26 @@ class OsuSig:
         )
 
     def drawAccuracy(self, draw):
+        if self.showPP=="1":
+            text, coords = '{} ({}pp)'.format((self.user.accuracy +"%").rjust(6), round(float(self.user.pp_raw))), (217, 37)
+        else:
+            text, coords = '{}'.format((self.user.accuracy +"%").rjust(6)), (273, 37)
         self.drawText("Accuracy", (87, 38), draw, "exo2regular", 14, (85, 85, 85))
-        self.drawText(self.user.accuracy.rjust(3) +"%", (273, 37), draw, "exo2bold", 14, (85, 85, 85))
+        self.drawText(text, coords, draw, "exo2bold", 14, (85, 85, 85))
 
     def drawPlaycount(self, draw):
         self.drawText("Play Count", (87, 55), draw, "exo2regular", 14, (85, 85, 85))
-        self.drawText('{0:,}'.format(int(self.user.playcount)), (273, 54), draw, "exo2bold", 14, (85, 85, 85))
+        text = ""
+        if self.showPP=="0":
+            text, coords = '{0:,} ({1}pp)'.format(int(self.user.playcount), round(float(self.user.pp_raw))), (215, 54)
+        else:
+            text, coords = '{0:,} (lv{1})'.format(int(self.user.playcount), round(float(self.user.level))), (230, 54)
+        self.drawText(text, 
+                    coords, 
+                    draw, 
+                    "exo2bold", 
+                    14,
+                    (85, 85, 85))
 
     def drawRankedScore(self, draw):
         self.drawText("Ranked Score", (87, 55), draw, "exo2regular", 14, (85, 85, 85))
@@ -108,8 +122,6 @@ class OsuSig:
         return avatar
 
     def drawAvatar(self, avatar):
-        # x 76
-        # y 75
         resize_ratio = avatar.size[0] / avatar.size[1]
         new_size_y = 76
         new_size_x = int(new_size_y * resize_ratio)
