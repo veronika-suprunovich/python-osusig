@@ -1,5 +1,5 @@
 $(function() {
-    var colour = "pink";
+    var colour = "darkpink";
     var mode = 0;
     var ppmode = -1;
 
@@ -16,24 +16,24 @@ $(function() {
             if(mode > 0) url += "&mode=" + mode;
             url += (ppmode >= 0 ? "&pp=" + ppmode : "");
 
-            url += ($("input[name=country-rank]").prop('checked') ? "&countryrank" : "");
+            url += ($("input[name=country-rank]").prop('checked') ? "&countryrank=1" : "");
 
-            url += ($("input[name=adv-av-margin]").prop('checked') ? "&removeavmargin" : "");
+            url += ($("input[name=adv-av-margin]").prop('checked') ? "&removeavmargin=1" : "");
 
-            url += ($("input[name=adv-flag-shadow]").prop('checked') ? "&flagshadow" : "");
-            url += ($("input[name=adv-flag-stroke]").prop('checked') ? "&flagstroke" : "");
+            url += ($("input[name=adv-flag-shadow]").prop('checked') ? "&flagshadow=1" : "");
+            url += ($("input[name=adv-flag-stroke]").prop('checked') ? "&flagstroke=1" : "");
 
-            url += ($("input[name=adv-dark-header]").prop('checked') ? "&darkheader" : "");
-            url += ($("input[name=adv-dark-triangles]").prop('checked') ? "&darktriangles" : "");
+            url += ($("input[name=adv-dark-header]").prop('checked') ? "&darkheader=1" : "");
+            url += ($("input[name=adv-dark-triangles]").prop('checked') ? "&darktriangles=1" : "");
 
-            url += ($("input[name=adv-opaque-avatar]").prop('checked') ? "&opaqueavatar" : "");
+            url += ($("input[name=adv-opaque-avatar]").prop('checked') ? "&opaqueavatar=1" : "");
             url += ($("input[name=adv-avatar-rounding]").prop('checked') ? "&avatarrounding=" + $("input[name=adv-avatar-rounding-num]").val() : "");
 
-            url += ($("input[name=adv-ranked-score]").prop('checked') ? "&rankedscore" : "");
+            url += ($("input[name=adv-ranked-score]").prop('checked') ? "&rankedscore=1" : "");
 
             url += ($("select[name=adv-online-indicator]").val() !== '0' ? "&onlineindicator=" + $("select[name=adv-online-indicator]").val() : "");
 
-            url += ($("input[name=adv-xp-bar]").prop('checked') ? "&xpbar" : "");
+            url += ($("input[name=adv-xp-bar]").prop('checked') ? "&xpbar=1" : "");
             url += ($("input[name=adv-xp-bar-hex]").prop('checked') ? "&xpbarhex" : "");
 
             var fullurl = "http://127.0.0.1:5000/" + url;

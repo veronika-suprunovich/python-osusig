@@ -54,10 +54,14 @@
         <br><br>
         <label for="mode">Mode</label>
         <ul class="modes">
-            <li class="osu selected" id="mode-osu"><img src="{{ url_for('static', filename='osu.png') }}"><span>osu!</span></li>
-            <li class="taiko" id="mode-taiko"><img src="{{ url_for('static', filename='taiko.png') }}"><span>osu!taiko</span></li>
-            <li class="ctb" id="mode-ctb"><img src="{{ url_for('static', filename='ctb.png') }}"><span>osu!ctb</span></li>
-            <li class="mania" id="mode-mania"><img src="{{ url_for('static', filename='mania.png') }}"><span>osu!mania</span></li>
+            <li class="osu selected" id="mode-osu"><img
+                    src="{{ url_for('static', filename='osu.png') }}"><span>osu!</span></li>
+            <li class="taiko" id="mode-taiko"><img
+                    src="{{ url_for('static', filename='taiko.png') }}"><span>osu!taiko</span></li>
+            <li class="ctb" id="mode-ctb"><img src="{{ url_for('static', filename='ctb.png') }}"><span>osu!ctb</span>
+            </li>
+            <li class="mania" id="mode-mania"><img
+                    src="{{ url_for('static', filename='mania.png') }}"><span>osu!mania</span></li>
         </ul>
         <br><br>
         <label for="ppmode">Performance Points Display</label>
@@ -77,9 +81,7 @@
         </div>
         <br>
         <label for="out">BBCode:</label>
-        <input type="text" name="out" id="out"
-            value="[img]a[/img]"
-            style="width: 100%; text-align: center" readonly />
+        <input type="text" name="out" id="out" value="[img]a[/img]" style="width: 100%; text-align: center" readonly />
         <br><br>
         <a href="#" id="regen" class="button">Generate</a>
     </article>
@@ -98,6 +100,15 @@
             <span>
                 <input type="checkbox" name="adv-opaque-avatar" /> Add a background behind the avatar
             </span>
+            <span>
+                Show an online indicator (slows down signature)
+                <select name="adv-online-indicator">
+                    <option value="0">Don't show</option>
+                    <option value="1">Glow around the signature</option>
+                    <option value="2">Green triangle in avatar</option>
+                    <option value="3">Glow &amp; triangle</option>
+                </select>
+            </span>
         </div>
         <div class="twocol-col">
             <span>
@@ -109,6 +120,15 @@
             <span>
                 <input type="checkbox" name="adv-avatar-rounding" /> Set a custom rounding for the avatar
                 <input type="number" name="adv-avatar-rounding-num" min="0" value="4" disabled class="smallnumber" />
+            </span>
+            <span>
+                <input type="checkbox" name="adv-ranked-score" /> Show your ranked score (replaces playcount)
+            </span>
+            <span>
+                <input type="checkbox" name="adv-xp-bar" /> Show an XP bar at the bottom
+            </span>
+            <span>
+                <input type="checkbox" name="adv-xp-bar-hex" /> Use signature colour for XP bar
             </span>
         </div>
     </article>
