@@ -3,6 +3,7 @@ import sigGenerator
 import os
 from io import BytesIO
 import config
+import exceptions
 
 app = Flask(__name__)
 
@@ -22,8 +23,10 @@ def generatedImage():
     if color in config.DEFAULT_COLORS.keys():
         color = config.DEFAULT_COLORS.get(color)
     color = hex_to_rgb(color)
-    sig = sigGenerator.OsuSig(
-        color, username, mode, showPP)
+    try:
+        sig = sigGenerator.OsuSig(
+            color, username, mode, showPP)
+    except exceptions.UserNotFound:
+        return send_file(os.path.join('static', 'usernotfound.png'), mimetype="image/png")
     sig.generateImage()
-    path = os.path.join('static', 'sig.png')
-    return send_file(path, mimetype="image/png")
+    return send_file(os.path.join('static', 'sig.png'), mimetype="image/png")

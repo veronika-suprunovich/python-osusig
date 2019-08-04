@@ -77,9 +77,9 @@ class OsuSig:
         self.drawText("Play Count", (87, 55), draw, "exo2regular", 14, (85, 85, 85))
         text = ""
         if self.showPP=="0":
-            text, base_coords = '{0:,} ({1}pp)'.format(int(self.user.playcount), round(float(self.user.pp_raw))), (319, 54)
+            text, base_coords = '{0:,} ({1}pp)'.format(int(self.user.playcount), round(float(self.user.pp_raw))), (319, 55)
         else:
-            text, base_coords = '{0:,} (lv{1})'.format(int(self.user.playcount), round(float(self.user.level))), (319, 54)
+            text, base_coords = '{0:,} (lv{1})'.format(int(self.user.playcount), round(float(self.user.level))), (319, 55)
         coords  = self.fontCoords(draw, "exo2bold", text, 14, base_coords)
         self.drawText(text, 
                     coords, 

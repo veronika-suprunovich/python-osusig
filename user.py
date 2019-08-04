@@ -1,5 +1,6 @@
 import api
 from config import API_KEY
+import exceptions
 
 def formatAccuracy(num):
     num = round(float(num), 2)
@@ -15,7 +16,10 @@ class User(dict):
 
     def getUserStats(self):
         API = api.BanchoApi(API_KEY)
-        self.user = API.get_user(u=self.uname, m=self.mode)[0]
+        try:
+            self.user = API.get_user(u=self.uname, m=self.mode)[0]
+        except IndexError:
+            raise exceptions.UserNotFound
         self.user["accuracy"] = str(formatAccuracy(self.user["accuracy"]))
 
     def __getattr__(self, attr):
