@@ -1,9 +1,10 @@
 from PIL import Image, ImageDraw, ImageFont
-import api
+from . import api
 from config import API_KEY
 import requests
 import os
-from user import User
+from .user import User
+import io
 
 MODE = {
     "0" : "osu",
@@ -29,6 +30,15 @@ class OsuSig:
         self.showXPBar = showXPBar
         self.isCountryRank = isCountryRank
 
+    def __repr__(self):
+        return self.img
+
+    def serverImage(self):
+        img_io = io.BytesIO()
+        self.img.save(img_io, 'PNG')
+        img_io.seek(0)
+        return img_io
+
     def generateImage(self):
         draw = self.drawImage()
         self.drawSigArea(draw)
@@ -40,17 +50,23 @@ class OsuSig:
         self.drawRankedScore(draw) if self.showRankedScore else self.drawPlaycount(draw)
         self.drawFlag()
         self.drawMode()
-        self.saveSig()
+        return self.serverImage()
 
     def fontCoords(self, draw, font, text, size, coords):
         fnt = ImageFont.truetype("./fonts/{}.ttf".format(font), size)
         text_size = draw.textsize(text, font=fnt)
         return (coords[0] - text_size[0], coords[1])
 
+    def getFontSize(self, text):
+        if len(text)>10:
+            return 23 - (len(text) // 10)
+        return 24
+
     def drawUsername(self, draw):
+        size = self.getFontSize(self.user.username)
         self.drawText(self.user.username, 
-            (86, 3),
-            draw, "exo2medium", 24, (255,255,255))
+            (86, 3) if size == 24 else (86,5),
+            draw, "exo2medium", size, (255,255,255))
     
     def drawRank(self, draw):
         text = "#{}".format(self.user.pp_rank)

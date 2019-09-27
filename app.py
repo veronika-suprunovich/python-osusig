@@ -27,5 +27,6 @@ def generatedImage():
             color, username, mode, showPP)
     except exceptions.UserNotFound:
         return send_file(os.path.join('static', 'usernotfound.png'), mimetype="image/png")
-    sig.generateImage()
-    return send_file(os.path.join('static', 'sig.png'), mimetype="image/png")
+    image = sig.generateImage()
+    # return send_file(os.path.join('static', 'sig.png'), mimetype="image/png")
+    return send_file(image, mimetype="image/png")

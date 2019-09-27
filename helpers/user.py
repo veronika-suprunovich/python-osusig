@@ -1,6 +1,6 @@
-import api
+from . import api
 from config import API_KEY
-import exceptions
+from . import exceptions
 
 def formatAccuracy(num):
     num = round(float(num), 2)
