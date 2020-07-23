@@ -7,6 +7,8 @@ import config
 app = Flask(__name__)
 
 def hex_to_rgb(h):
+    if "hex" in h:
+        h = h.replace("hex", "")
     return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
 
 @app.route("/")
@@ -28,5 +30,4 @@ def generatedImage():
     except exceptions.UserNotFound:
         return send_file(os.path.join('static', 'usernotfound.png'), mimetype="image/png")
     image = sig.generateImage()
-    # return send_file(os.path.join('static', 'sig.png'), mimetype="image/png")
     return send_file(image, mimetype="image/png")
