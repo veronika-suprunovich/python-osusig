@@ -132,7 +132,7 @@ class OsuSig:
                 mode)
 
     def drawFlag(self):
-        flag = Image.open("flags/{}.png".format(self.user.country))
+        flag = Image.open("flags/{}.png".format(self.user.country)).convert("RGBA")
         flag = flag.resize((18, 13), Image.ANTIALIAS)
         self.img.paste(flag, (303, 17), flag)
 
