@@ -1,6 +1,7 @@
 from . import api
 from config import API_KEY
 from . import exceptions
+import numpy
 
 def formatAccuracy(num):
     num = round(float(num), 2)
