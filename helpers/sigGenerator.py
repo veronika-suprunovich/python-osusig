@@ -6,6 +6,7 @@ import os
 from .user import User
 import io
 
+
 MODE = {
     "0" : "osu",
     "1" : "taiko",
@@ -13,11 +14,14 @@ MODE = {
     "3" : "mania"
 }
 
+class Mode(Enum):
+    pass
+
 class OsuSig:
-    def __init__(self, 
+    def __init__(self,
                 color, username,
-                mode=0, 
-                showPP = None, 
+                mode=0,
+                showPP = None,
                 showRankedScore = False,
                 showXPBar = False,
                 isCountryRank = False):
@@ -64,17 +68,17 @@ class OsuSig:
 
     def drawUsername(self, draw):
         size = self.getFontSize(self.user.username)
-        self.drawText(self.user.username, 
+        self.drawText(self.user.username,
             (86, 3) if size == 24 else (86,5),
             draw, "exo2medium", size, (255,255,255))
-    
+
     def drawRank(self, draw):
         text = "#{}".format(self.user.pp_rank)
         coords  = self.fontCoords(draw, "exo2regular", text, 14, (280, 14))
         self.drawText(
-            text, 
+            text,
             coords,
-            draw, 
+            draw,
             "exo2regular",
             14,
             (255,255,255)
@@ -97,10 +101,10 @@ class OsuSig:
         else:
             text, base_coords = '{0:,} (lv{1})'.format(int(self.user.playcount), round(float(self.user.level))), (319, 55)
         coords  = self.fontCoords(draw, "exo2bold", text, 14, base_coords)
-        self.drawText(text, 
-                    coords, 
-                    draw, 
-                    "exo2bold", 
+        self.drawText(text,
+                    coords,
+                    draw,
+                    "exo2bold",
                     14,
                     (85, 85, 85))
 
@@ -127,8 +131,8 @@ class OsuSig:
         mode = Image.open("img/{}.png".format(self.mode))
         mode = mode.resize((12, 12), Image.ANTIALIAS)
         self.img.paste(
-                mode, 
-                (286, 17), 
+                mode,
+                (286, 17),
                 mode)
 
     def drawFlag(self):
@@ -154,5 +158,3 @@ class OsuSig:
 
     def saveSig(self):
         self.img.save("static/sig.png")
-    
-
